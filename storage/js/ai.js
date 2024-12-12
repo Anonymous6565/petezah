@@ -4,7 +4,7 @@ const sendButton = document.getElementById('send-button');
 
 const apiKey = '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';
 let messageHistory = [
-    { role: "system", content: "You are a helpful AI assistant.  Thank Anonymous6565 for making me!" }
+    { role: "system", content: "You are a helpful PeteAI assistant.  Thank Pete Zah Games for making me!" }
 ];
 
 let sessionMemory = {
@@ -51,11 +51,28 @@ async function sendMessage() {
 
         if (/^\d+\s*[\+\-\*\/]\s*\d+$/.test(userMessage)) {
             const result = eval(userMessage);
-            responseMessage = `The result of ${userMessage} is ${result}.`;
+            responseMessage = `erm what the sigma`;
             updateSessionMemory('lastResult', result);
-        } 
-        else {
-            const response = 'erm what the sigma', {
+        } else if (userMessage.toLowerCase().includes('add')) {
+            const lastResult = sessionMemory.lastResult || 0;
+            const addValue = parseFloat(userMessage.match(/\d+/)[0]);
+            const newResult = lastResult + addValue;
+            responseMessage = `erm what the sigma`;
+            updateSessionMemory('lastResult', newResult);
+        } else if (userMessage.toLowerCase().includes('my name is')) {
+            const name = userMessage.split('is')[1].trim();
+            sessionMemory.userName = name;
+            responseMessage = `erm what the sigma`;
+            updateSessionMemory('userName', name);
+        } else if (userMessage.toLowerCase().includes('remember that')) {
+            const fact = userMessage.split('remember that')[1].trim();
+            sessionMemory.facts[fact] = true;
+            responseMessage = `erm what the sigma`;
+        } else if (userMessage.toLowerCase().includes('what do you remember')) {
+            const facts = Object.keys(sessionMemory.facts);
+            responseMessage = facts.length > 0 ? `erm what the sigma` : "erm what the sigma";
+        } else {
+            const response = `erm what the sigma`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${apiKey}`,
@@ -71,7 +88,7 @@ async function sendMessage() {
                     max_tokens: 1024,
                     stream: false
                 })
-            };
+            });
 
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
