@@ -4,7 +4,7 @@ const sendButton = document.getElementById('send-button');
 
 const apiKey = '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';
 let messageHistory = [
-    { role: "system", content: "You are a helpful PeteAI assistant.  Thank Pete Zah Games for making me!" }
+    { role: "system", content: "You are a helpful AI assistant.  Thank Anonymous6565 for making me!" }
 ];
 
 let sessionMemory = {
@@ -53,26 +53,9 @@ async function sendMessage() {
             const result = eval(userMessage);
             responseMessage = `The result of ${userMessage} is ${result}.`;
             updateSessionMemory('lastResult', result);
-        } else if (userMessage.toLowerCase().includes('add')) {
-            const lastResult = sessionMemory.lastResult || 0;
-            const addValue = parseFloat(userMessage.match(/\d+/)[0]);
-            const newResult = lastResult + addValue;
-            responseMessage = `Adding ${addValue} to ${lastResult} gives ${newResult}.`;
-            updateSessionMemory('lastResult', newResult);
-        } else if (userMessage.toLowerCase().includes('my name is')) {
-            const name = userMessage.split('is')[1].trim();
-            sessionMemory.userName = name;
-            responseMessage = `Nice to meet you, ${name}!`;
-            updateSessionMemory('userName', name);
-        } else if (userMessage.toLowerCase().includes('remember that')) {
-            const fact = userMessage.split('remember that')[1].trim();
-            sessionMemory.facts[fact] = true;
-            responseMessage = `Got it! I'll remember that: "${fact}".`;
-        } else if (userMessage.toLowerCase().includes('what do you remember')) {
-            const facts = Object.keys(sessionMemory.facts);
-            responseMessage = facts.length > 0 ? `I remember these things: ${facts.join(', ')}.` : "I don't remember anything yet.";
-        } else {
-            const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        } 
+        else {
+            const response = 'erm what the sigma', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${apiKey}`,
@@ -88,7 +71,7 @@ async function sendMessage() {
                     max_tokens: 1024,
                     stream: false
                 })
-            });
+            };
 
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
